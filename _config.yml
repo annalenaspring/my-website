@@ -1,0 +1,17 @@
+title: Anna Lena Spring
+description: "Anna Lena Spring — Animation, Keramik, Illustration. Bern, Schweiz."
+url: "https://www.annalenaspring.ch"
+
+markdown: kramdown
+permalink: pretty
+
+exclude:
+  - README.md
+  - assets/README.md
+  - .github
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"

@@ -1,0 +1,29 @@
+---
+layout: default
+title: Keramik
+permalink: /keramik/
+description: "Keramikfiguren von Anna Lena Spring."
+---
+<section class="page-hero" data-reveal>
+  <span class="section-index">02</span>
+  <h1>Keramik</h1>
+  <p class="page-intro">Kleine, etwas verrückte Wesen aus Ton. Ziehe an einer Figur, um sie zu drehen.</p>
+</section>
+
+<section class="ceramics-grid">
+  <div class="ceramic-card" data-reveal>
+    <div class="ceramic-viewer" data-front="{{ '/assets/tierli1.png' | relative_url }}" data-side="{{ '/assets/tierli2.png' | relative_url }}">
+      <img src="{{ '/assets/tierli1.png' | relative_url }}" alt="Keramikfigur 01" class="ceramic-img" draggable="false">
+      <span class="ceramic-hint">↔ ziehen</span>
+    </div>
+    <p class="ceramic-caption">Figur 01 — Steingut, glasiert</p>
+  </div>
+
+  <!-- Weitere Figuren: Karte duplizieren, data-front / data-side anpassen -->
+  <div class="ceramic-card ceramic-card--placeholder" data-reveal>
+    <div class="ceramic-viewer ceramic-viewer--empty">
+      <span>+ weitere Figur folgt</span>
+    </div>
+    <p class="ceramic-caption">Figur 02</p>
+  </div>
+</section>

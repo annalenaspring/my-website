@@ -1,57 +1,65 @@
-/* Anna Lena Spring — main.js */
-(function(){
-  "use strict";
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(hover:none), (pointer:coarse)').matches;
+/* Anna Lena Spring — Portfolio (Multi-Page) */
+document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---------------- Loader ---------------- */
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    setTimeout(() => loader.classList.add('done'), 1400);
-    setTimeout(() => { loader.style.display = 'none'; }, 2100);
-  });
-
-  /* ---------------- Year ---------------- */
+  /* ---------- Footer year ---------- */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* ---------------- Theme toggle ---------------- */
-  const root = document.documentElement;
-  const toggle = document.getElementById('theme-toggle');
-  const stored = localStorage.getItem('als-theme');
-  if (stored === 'dark') root.classList.add('dark');
-  else if (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
-
-  toggle?.addEventListener('click', () => {
-    root.classList.toggle('dark');
-    localStorage.setItem('als-theme', root.classList.contains('dark') ? 'dark' : 'light');
+  /* ---------- Loader ---------- */
+  const loader = document.getElementById('loader');
+  window.addEventListener('load', () => {
+    setTimeout(() => loader && loader.classList.add('done'), 600);
   });
+  // safety fallback in case 'load' already fired or is slow
+  setTimeout(() => loader && loader.classList.add('done'), 2200);
 
-  /* ---------------- Custom cursor ---------------- */
-  if (!isTouch) {
-    const cursor = document.getElementById('cursor');
-    let mx = window.innerWidth/2, my = window.innerHeight/2, cx = mx, cy = my;
-    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.classList.remove('hidden'); });
+  /* ---------- Theme toggle ---------- */
+  const root = document.documentElement;
+  const themeToggle = document.querySelector('.theme-toggle');
+  const THEME_KEY = 'als-theme';
+
+  function applyTheme(t) {
+    if (t === 'dark') root.classList.add('dark');
+    else root.classList.remove('dark');
+  }
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved) {
+    applyTheme(saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    applyTheme('dark');
+  }
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isDark = root.classList.contains('dark');
+      applyTheme(isDark ? 'light' : 'dark');
+      localStorage.setItem(THEME_KEY, isDark ? 'light' : 'dark');
+    });
+  }
+
+  /* ---------- Custom cursor ---------- */
+  const cursor = document.querySelector('.cursor');
+  if (cursor && matchMedia('(hover: hover)').matches) {
+    let mx = innerWidth / 2, my = innerHeight / 2;
+    let cx = mx, cy = my;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
     document.addEventListener('mouseleave', () => cursor.classList.add('hidden'));
-
-    function raf(){
+    document.addEventListener('mouseenter', () => cursor.classList.remove('hidden'));
+    (function loop() {
       cx += (mx - cx) * 0.18;
       cy += (my - cy) * 0.18;
       cursor.style.transform = `translate(${cx}px, ${cy}px)`;
-      requestAnimationFrame(raf);
-    }
-    raf();
-
-    document.querySelectorAll('[data-cursor="link"], .work-item').forEach(el => {
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('[data-cursor="link"], a, button, .work-item, .ceramic-viewer, .home-figure').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('link'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('link'));
     });
   }
 
-  /* ---------------- Scroll reveal ---------------- */
+  /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll('[data-reveal]');
-  if ('IntersectionObserver' in window) {
-    const obs = new IntersectionObserver((entries) => {
+  if ('IntersectionObserver' in window && revealEls.length) {
+    const obs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in');
@@ -64,48 +72,147 @@
     revealEls.forEach(el => el.classList.add('in'));
   }
 
-  /* ---------------- Hero parallax (mouse) + leitfigur float ---------------- */
-  const heroFigure = document.querySelector('.hero-figure');
-  if (heroFigure && !isTouch && !reduceMotion) {
-    window.addEventListener('mousemove', (e) => {
-      const dx = (e.clientX / window.innerWidth - 0.5) * 18;
-      const dy = (e.clientY / window.innerHeight - 0.5) * 18;
-      heroFigure.style.transform = `translate(${dx}px, ${dy}px)`;
+  /* ---------- Mobile nav burger ---------- */
+  const burger = document.querySelector('.nav-burger');
+  const mainNav = document.querySelector('.main-nav');
+  if (burger && mainNav) {
+    burger.addEventListener('click', () => {
+      mainNav.classList.toggle('open');
     });
   }
 
-  /* Gentle idle float via GSAP if available */
+  /* ---------- GSAP idle float (if available) ---------- */
   if (window.gsap) {
-    gsap.to('.hero-figure', { y: '+=10', duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-
-    if (window.ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.utils.toArray('main > section').forEach((sec, i) => {
-        if (i === 0) return;
-        gsap.fromTo(sec, { opacity: 1 }, {
-          opacity: 1,
-          scrollTrigger: { trigger: sec, start: 'top 85%' }
-        });
-      });
-    }
+    gsap.to('.home-figure', {
+      y: 10,
+      duration: 2.4,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
   }
 
-  /* ---------------- Work item hover preview ---------------- */
-  const preview = document.getElementById('work-preview');
-  const previewImg = document.getElementById('work-preview-img');
-  const placeholderColors = {
-    glitzert: '%2387A748', ultimo: '%23AACCBA', sauna: '%23DC6F4B', sweetnothing: '%2387A748', lu: '%23AACCBA'
+  /* ---------- Home figure drag (light parallax tilt) ---------- */
+  const homeFigure = document.getElementById('home-figure');
+  if (homeFigure) {
+    let dragging = false, startX = 0, rotation = 0;
+    const onDown = (x) => { dragging = true; startX = x; homeFigure.style.transition = 'none'; };
+    const onMove = (x) => {
+      if (!dragging) return;
+      const delta = x - startX;
+      rotation = Math.max(-18, Math.min(18, delta / 4));
+      homeFigure.style.transform = `rotate(${rotation}deg)`;
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      homeFigure.style.transition = 'transform .6s cubic-bezier(.16,.84,.44,1)';
+      homeFigure.style.transform = 'rotate(0deg)';
+    };
+    homeFigure.addEventListener('mousedown', e => onDown(e.clientX));
+    window.addEventListener('mousemove', e => onMove(e.clientX));
+    window.addEventListener('mouseup', onUp);
+    homeFigure.addEventListener('touchstart', e => onDown(e.touches[0].clientX), { passive: true });
+    homeFigure.addEventListener('touchmove', e => onMove(e.touches[0].clientX), { passive: true });
+    homeFigure.addEventListener('touchend', onUp);
+  }
+
+  /* ---------- Ceramic pseudo-3D turntable viewer ---------- */
+  document.querySelectorAll('.ceramic-viewer[data-front]').forEach(viewer => {
+    const img = viewer.querySelector('.ceramic-img');
+    const front = viewer.getAttribute('data-front');
+    const side = viewer.getAttribute('data-side');
+    if (!img || !front || !side) return;
+
+    let dragging = false, startX = 0, lastDelta = 0;
+    const THRESHOLD = 60; // px to fully cross to the side image
+
+    function setFrame(t) {
+      // t: -1 (side from left) .. 0 (front) .. 1 (side from right)
+      const abs = Math.min(1, Math.abs(t));
+      img.style.opacity = String(1 - abs * 0.55);
+      img.src = abs > 0.5 ? side : front;
+      img.style.transform = `scaleX(${t < 0 ? -1 : 1}) rotateY(${t * 25}deg)`;
+    }
+
+    const onDown = (x) => {
+      dragging = true; startX = x;
+      viewer.style.cursor = 'grabbing';
+      document.querySelector('.cursor')?.classList.add('drag');
+    };
+    const onMove = (x) => {
+      if (!dragging) return;
+      const delta = x - startX;
+      lastDelta = delta;
+      setFrame(Math.max(-1, Math.min(1, delta / THRESHOLD)));
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      viewer.style.cursor = 'grab';
+      document.querySelector('.cursor')?.classList.remove('drag');
+      setFrame(0);
+    };
+
+    viewer.addEventListener('mousedown', e => onDown(e.clientX));
+    window.addEventListener('mousemove', e => onMove(e.clientX));
+    window.addEventListener('mouseup', onUp);
+    viewer.addEventListener('touchstart', e => onDown(e.touches[0].clientX), { passive: true });
+    viewer.addEventListener('touchmove', e => onMove(e.touches[0].clientX), { passive: true });
+    viewer.addEventListener('touchend', onUp);
+  });
+
+  /* ---------- Work list: hover preview + modal ---------- */
+  const projectData = {
+    glitzert: {
+      year: '2023', title: 'Glitzert', role: 'Animation, Compositing',
+      desc: 'Kurzfilm über Oberflächen, die mehr glänzen als sie tragen.',
+      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    },
+    ultimo: {
+      year: '2022', title: 'Ultimo', role: 'Regie, Character Design',
+      desc: 'Eine kleine Geschichte über das letzte Mal.',
+      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    },
+    sauna: {
+      year: '2021', title: 'Sauna', role: 'Regie, Character Design, Compositing',
+      desc: 'Abschlussfilm an der HSLU — über Nähe, Hitze und Stillstand.',
+      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    },
+    sweetnothing: {
+      year: '2020', title: 'Sweet Nothing', role: 'Animation',
+      desc: 'Ein kurzer, zärtlicher Moment in bewegten Bildern.',
+      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    },
+    lu: {
+      year: '2019', title: 'Lu', role: 'Animation, Illustration',
+      desc: 'Porträt einer Figur zwischen Kindheit und Erwachsensein.',
+      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    }
   };
-  if (preview && !isTouch) {
-    document.querySelectorAll('.work-item').forEach(item => {
-      const key = item.dataset.project;
-      const color = placeholderColors[key] || '%23AACCBA';
-      const svg = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160'><rect width='100%' height='100%' fill='${color}'/></svg>`;
+
+  const previewColors = {
+    glitzert: '#DC6F4B', ultimo: '#87A748', sauna: '#AACCBA',
+    sweetnothing: '#F7F3EC', lu: '#181614'
+  };
+
+  function placeholderSVG(color) {
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160'><rect width='100%' height='100%' fill='${color}'/></svg>`;
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  const workItems = document.querySelectorAll('.work-item');
+  const preview = document.querySelector('.work-preview');
+  const previewImg = preview ? preview.querySelector('img') : null;
+
+  if (workItems.length && preview && previewImg) {
+    workItems.forEach(item => {
+      const key = item.getAttribute('data-project');
       item.addEventListener('mouseenter', () => {
-        previewImg.src = svg;
+        previewImg.src = placeholderSVG(previewColors[key] || '#AACCBA');
         preview.classList.add('show');
       });
-      item.addEventListener('mousemove', (e) => {
+      item.addEventListener('mousemove', e => {
         preview.style.left = e.clientX + 'px';
         preview.style.top = e.clientY + 'px';
       });
@@ -113,45 +220,32 @@
     });
   }
 
-  /* ---------------- Project modal ---------------- */
-  const projectData = {
-    glitzert: { year: '2026', title: 'Was glitzert', role: 'Regie & Animation (mit Lara Perren)', desc: 'Aktuelle Regiearbeit von Anna Lena Spring und Lara Perren.', link: 'https://www.swissfilms.ch/de/movie/was-glitzert/1B608203A31848A9AAB4EEFDE2471DBB' },
-    ultimo: { year: '2025', title: 'último round', role: 'Animation', desc: 'Animationsarbeit für den Film von Eva Jane Wottreng.', link: 'https://www.swissfilms.ch/de/movie/ultimo-round/2575A0D1169F4D0C9242D5A46BC53F0F' },
-    sauna: { year: '2021', title: 'Sauna', role: 'Regie, Drehbuch, Character Design, Compositing', desc: 'Abschlussfilm an der HSLU — entstanden mit Lara Perren.', link: 'https://www.swissfilms.ch/de/movie/sauna/EDA97B6C3ED146F6A2D856E7691D6A71' },
-    sweetnothing: { year: '2021', title: 'Sweet Nothing', role: 'Animation', desc: 'Animationsarbeit für den Film von Marie Kenov & Joana Fischer.', link: 'https://www.swissfilms.ch/de/movie/sweet-nothing/4F694EB9F5BB43A8B78C99136BBE5326' },
-    lu: { year: '2020', title: 'Lu', role: 'Regie, Drehbuch, Sound Design', desc: 'Gemeinsam mit Lara Perren und Luisa Zürcher realisiert.', link: 'https://www.swissfilms.ch/de/movie/lu/22A7D74058EC4770BBB04B533B249D2E' }
-  };
-
   const modal = document.getElementById('project-modal');
-  const modalClose = document.getElementById('project-modal-close');
-  document.querySelectorAll('.work-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const data = projectData[item.dataset.project];
-      if (!data) return;
-      document.getElementById('modal-year').textContent = data.year;
-      document.getElementById('modal-title').textContent = data.title;
-      document.getElementById('modal-role').textContent = data.role;
-      document.getElementById('modal-desc').textContent = data.desc;
-      document.getElementById('modal-link').href = data.link;
-      modal.classList.add('open');
+  if (modal) {
+    const modalYear = document.getElementById('modal-year');
+    const modalTitle = document.getElementById('modal-title');
+    const modalRole = document.getElementById('modal-role');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalLink = document.getElementById('modal-link');
+    const closeBtn = document.getElementById('project-modal-close');
+
+    workItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const key = item.getAttribute('data-project');
+        const data = projectData[key];
+        if (!data) return;
+        if (modalYear) modalYear.textContent = data.year;
+        if (modalTitle) modalTitle.textContent = data.title;
+        if (modalRole) modalRole.textContent = data.role;
+        if (modalDesc) modalDesc.textContent = data.desc;
+        if (modalLink) modalLink.href = data.link;
+        modal.classList.add('open');
+      });
     });
-  });
-  modalClose?.addEventListener('click', () => modal.classList.remove('open'));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('open'); });
+    if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') modal.classList.remove('open');
+    });
+  }
 
-  /* ---------------- Mobile nav burger ---------------- */
-  const burger = document.getElementById('nav-burger');
-  const nav = document.querySelector('.main-nav');
-  burger?.addEventListener('click', () => {
-    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-    nav.style.position = 'fixed';
-    nav.style.top = '70px';
-    nav.style.right = '1.25rem';
-    nav.style.flexDirection = 'column';
-    nav.style.background = 'var(--bg-alt)';
-    nav.style.padding = '1.5rem';
-    nav.style.borderRadius = '8px';
-    nav.style.boxShadow = '0 10px 30px rgba(0,0,0,.15)';
-  });
-
-})();
+});

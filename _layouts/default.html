@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} — {% endif %}Anna Lena Spring</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <svg viewBox="0 0 120 120" class="loader-svg">
+      <circle cx="60" cy="60" r="46" class="loader-circle"/>
+    </svg>
+    <span class="loader-initials">A·L·S</span>
+  </div>
+  <div class="loader-bar"><span class="loader-bar-fill"></span></div>
+</div>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- Grain overlay -->
+<div class="grain" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a href="{{ '/' | relative_url }}" class="logo">Anna&nbsp;Lena&nbsp;Spring</a>
+  <nav class="main-nav">
+    <a href="{{ '/animation/' | relative_url }}" data-cursor="link" {% if page.url contains '/animation' %}class="active"{% endif %}>Animation</a>
+    <a href="{{ '/keramik/' | relative_url }}" data-cursor="link" {% if page.url contains '/keramik' %}class="active"{% endif %}>Keramik</a>
+    <a href="{{ '/other/' | relative_url }}" data-cursor="link" {% if page.url contains '/other' %}class="active"{% endif %}>Other</a>
+    <a href="{{ '/ueber-mich/' | relative_url }}" data-cursor="link" {% if page.url contains '/ueber-mich' %}class="active"{% endif %}>Über&nbsp;mich</a>
+    <a href="{{ '/kontakt/' | relative_url }}" data-cursor="link" {% if page.url contains '/kontakt' %}class="active"{% endif %}>Kontakt</a>
+  </nav>
+  <button id="theme-toggle" class="theme-toggle" aria-label="Hell-/Dunkelmodus umschalten" data-cursor="link">
+    <span class="theme-toggle-dot"></span>
+  </button>
+  <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen" data-cursor="link">
+    <span></span><span></span>
+  </button>
+</header>
+
+<main>
+{{ content }}
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Anna Lena Spring</span>
+  <a href="{{ '/' | relative_url }}#top" data-cursor="link">Nach oben ↑</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="{{ '/js/main.js' | relative_url }}"></script>
+</body>
+</html>
