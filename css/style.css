@@ -177,6 +177,7 @@ h2{font-size:clamp(var(--fs-04),5vw,var(--fs-05));}
   padding:1.75rem 0;border-top:1px solid var(--line);cursor:pointer;
 }
 .work-item:last-child{border-bottom:1px solid var(--line);}
+.work-item-fill{display:contents;color:inherit;text-decoration:none;}
 .work-year{color:var(--text-muted);font-size:.9rem;}
 .work-title{font-family:'Clash Display',sans-serif;font-size:clamp(1.4rem,3vw,2.1rem);letter-spacing:-0.01em;transition:color .3s var(--ease), transform .3s var(--ease);}
 .work-role{color:var(--text-muted);font-size:.85rem;text-align:right;}
