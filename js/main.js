@@ -165,35 +165,44 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Work list: hover preview + modal ---------- */
   const projectData = {
     glitzert: {
-      year: '2023', title: 'Glitzert', role: 'Animation, Compositing',
-      desc: 'Kurzfilm über Oberflächen, die mehr glänzen als sie tragen.',
-      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+      year: '2026', title: 'Was glitzert', role: 'Co-Regie',
+      desc: 'Kurzfilm, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/was-glitzert',
+      trailer: 'https://vimeo.com/1185420476'
     },
-    ultimo: {
-      year: '2022', title: 'Ultimo', role: 'Regie, Character Design',
-      desc: 'Eine kleine Geschichte über das letzte Mal.',
-      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+    roadmovie: {
+      year: '2023', title: 'Roadmovie — Trailer', role: 'Co-Regie',
+      desc: 'Trailer zum Roadmovie, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/roadmovie',
+      trailer: 'https://www.youtube.com/watch?v=exXsSEMbRHs'
+    },
+    faderchleid: {
+      year: '2022', title: 'Faderchleid — Troubas Kater', role: 'Co-Regie',
+      desc: 'Musikvideo für Troubas Kater, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/faderchleid'
+    },
+    animadvent: {
+      year: '2021', title: 'Animadvent', role: 'Co-Regie',
+      desc: 'Animationsprojekt, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/animadvent'
     },
     sauna: {
-      year: '2021', title: 'Sauna', role: 'Regie, Character Design, Compositing',
-      desc: 'Abschlussfilm an der HSLU — über Nähe, Hitze und Stillstand.',
-      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
-    },
-    sweetnothing: {
-      year: '2020', title: 'Sweet Nothing', role: 'Animation',
-      desc: 'Ein kurzer, zärtlicher Moment in bewegten Bildern.',
-      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+      year: '2021', title: 'Sauna', role: 'Co-Regie, Character Design, Compositing',
+      desc: 'Kurzfilm über Nähe, Hitze und Stillstand, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/sauna',
+      trailer: 'https://www.youtube.com/watch?v=VaTAhH7iKEw'
     },
     lu: {
-      year: '2019', title: 'Lu', role: 'Animation, Illustration',
-      desc: 'Porträt einer Figur zwischen Kindheit und Erwachsensein.',
-      link: 'https://www.swissfilms.ch/de/person/anna-lena-spring/d560ccb59fdf4c3f8941e80542f6ba08'
+      year: '2020', title: 'Lu', role: 'Co-Regie',
+      desc: 'Kurzfilm, entstanden mit Aggregat Studio.',
+      link: 'https://aggregat-studio.ch/lu',
+      trailer: 'https://www.youtube.com/watch?v=eWSPBKh0-28'
     }
   };
 
   const previewColors = {
-    glitzert: '#DC6F4B', ultimo: '#87A748', sauna: '#AACCBA',
-    sweetnothing: '#F7F3EC', lu: '#181614'
+    glitzert: '#DC6F4B', roadmovie: '#87A748', faderchleid: '#AACCBA',
+    animadvent: '#D9E6E1', sauna: '#E9F0DD', lu: '#181614'
   };
 
   function placeholderSVG(color) {
@@ -227,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalRole = document.getElementById('modal-role');
     const modalDesc = document.getElementById('modal-desc');
     const modalLink = document.getElementById('modal-link');
+    const modalTrailer = document.getElementById('modal-trailer');
     const closeBtn = document.getElementById('project-modal-close');
 
     workItems.forEach(item => {
@@ -239,6 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modalRole) modalRole.textContent = data.role;
         if (modalDesc) modalDesc.textContent = data.desc;
         if (modalLink) modalLink.href = data.link;
+        if (modalTrailer) {
+          if (data.trailer) {
+            modalTrailer.href = data.trailer;
+            modalTrailer.style.display = '';
+          } else {
+            modalTrailer.style.display = 'none';
+          }
+        }
         modal.classList.add('open');
       });
     });

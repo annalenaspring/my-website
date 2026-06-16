@@ -203,7 +203,8 @@ h2{font-size:clamp(var(--fs-04),5vw,var(--fs-05));}
 .project-modal-inner h3{font-size:clamp(2rem,5vw,3.4rem);margin:.5rem 0 1rem;}
 .project-modal-year{color:var(--accent);letter-spacing:.1em;font-size:.85rem;}
 .project-modal-inner p{color:var(--text-muted);margin:0 0 .5rem;}
-.project-modal-inner a{display:inline-block;margin-top:1.5rem;border-bottom:1px solid var(--accent);}
+.project-modal-links{display:flex;gap:1.75rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap;}
+.project-modal-links a{display:inline-block;border-bottom:1px solid var(--accent);}
 .project-modal-close{
   position:absolute;top:1.75rem;right:clamp(1.25rem,4vw,3rem);font-size:2rem;line-height:1;
   background:none;border:none;color:var(--text);cursor:pointer;
