@@ -165,8 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Work list: hover preview + modal ---------- */
   const projectData = {
     glitzert: {
-      year: '2026', title: 'Was glitzert', role: 'Co-Regie',
-      desc: 'Kurzfilm, entstanden mit Aggregat Studio.',
+      year: '2026', title: 'Was glitzert', role: 'Co-Regie mit Lara Perren',
+      desc: '10\'. Produktion: Hélium Films / Clémence Pun. Co-Produktion: RTS Radio Télévision Suisse.',
       link: 'https://aggregat-studio.ch/was-glitzert',
       trailer: 'https://vimeo.com/1185420476'
     },
@@ -187,14 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
       link: 'https://aggregat-studio.ch/animadvent'
     },
     sauna: {
-      year: '2021', title: 'Sauna', role: 'Co-Regie, Character Design, Compositing',
-      desc: 'Kurzfilm über Nähe, Hitze und Stillstand, entstanden mit Aggregat Studio.',
+      year: '2021', title: 'Sauna', role: 'Co-Regie mit Lara Perren, Character Design, Compositing',
+      desc: '4\'. Produktion: HSLU — Design Film Kunst, Co-Produktion: SRF. Ausgezeichnet u.a. mit dem New Swiss Talent Award (Fantoche 2021) und dem Prix Röstigraben (Jugendfilmtage Zürich 2023).',
       link: 'https://aggregat-studio.ch/sauna',
       trailer: 'https://www.youtube.com/watch?v=VaTAhH7iKEw'
     },
     lu: {
-      year: '2020', title: 'Lu', role: 'Co-Regie',
-      desc: 'Kurzfilm, entstanden mit Aggregat Studio.',
+      year: '2020', title: 'Lu', role: 'Co-Regie mit Lara Perren & Luisa Zürcher',
+      desc: '1\'. Produktion: HSLU — Design Film Kunst. Gezeigt u.a. an Fantoche, den Solothurner und Zuger Filmtagen.',
       link: 'https://aggregat-studio.ch/lu',
       trailer: 'https://www.youtube.com/watch?v=eWSPBKh0-28'
     }
