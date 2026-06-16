@@ -21,13 +21,14 @@
   --paper: #FFFDF9;
   --ink: #181614;
 
-  --bg: var(--cream);
-  --bg-alt: var(--paper);
+  /* 60 / 30 / 10 Verteilung: 60% Grün (Olive), 30% Türkis (Sage), 10% Orange (Terracotta) */
+  --bg: #E9F0DD;            /* 60% — heller Olive-Ton, dominante Flächenfarbe */
+  --bg-alt: #D9E6E1;        /* 30% — heller Türkis-Ton für grosse Flächen (Header/Footer/Modal) */
   --text: var(--ink);
-  --text-muted: #6f6a62;
-  --line: rgba(24,22,20,0.12);
-  --secondary-surface: var(--sage);
-  --accent: var(--terracotta);
+  --text-muted: #5f6354;
+  --line: rgba(24,22,20,0.14);
+  --secondary-surface: var(--sage); /* 30% — Türkis, kräftiger für Karten/Flächen */
+  --accent: var(--terracotta);      /* 10% — Orange, sparsam für Links/Buttons/Hover */
   --cursor-mix: difference;
 
   --ease: cubic-bezier(.16,.84,.44,1);
@@ -35,12 +36,12 @@
 }
 
 html.dark{
-  --bg: #15140f;
-  --bg-alt: #1c1b16;
+  --bg: #131a0e;
+  --bg-alt: #1a2723;
   --text: #F3EFE6;
-  --text-muted: #b9b2a4;
-  --line: rgba(247,243,236,0.14);
-  --secondary-surface: #25301f;
+  --text-muted: #aab3a0;
+  --line: rgba(247,243,236,0.16);
+  --secondary-surface: #234038;
   --accent: var(--terracotta);
 }
 
@@ -89,7 +90,7 @@ h1,h2,h3{
 
 /* ---------- Loader ---------- */
 #loader{
-  position:fixed;inset:0;z-index:10000;background:var(--cream);
+  position:fixed;inset:0;z-index:10000;background:var(--bg);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
   transition:opacity .6s var(--ease), visibility .6s var(--ease);
 }
@@ -108,6 +109,8 @@ h1,h2,h3{
   position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
   padding:1.5rem clamp(1.25rem,4vw,3rem);
+  background:var(--bg-alt);
+  border-bottom:1px solid var(--line);
 }
 .logo{font-family:'Clash Display',sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:-0.01em;}
 .main-nav{display:flex;gap:2.25rem;font-size:.92rem;}
@@ -256,4 +259,5 @@ h2{font-size:clamp(var(--fs-04),5vw,var(--fs-05));}
 .site-footer{
   display:flex;justify-content:space-between;padding:2rem clamp(1.25rem,4vw,3rem);
   color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--line);
+  background:var(--bg-alt);
 }
