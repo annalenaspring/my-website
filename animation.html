@@ -55,9 +55,29 @@ description: "Filmografie von Anna Lena Spring — Animation, Regie, Character D
   </div>
 </section>
 
+<section class="loop-gallery" data-reveal>
+  <h2 class="cv-heading">Loop-Animationen</h2>
+  <p class="page-intro loop-intro">Gezeigt an der Gruppenausstellung «.gifFest» 2025, Pyxis, Lausanne.</p>
+  <ul class="loop-grid">
+    <li>
+      <img src="{{ '/assets/img/illu/faceloop.gif' | relative_url }}" alt="Faceloop" loading="lazy">
+      <span>Faceloop</span>
+    </li>
+    <li>
+      <img src="{{ '/assets/img/illu/herzloop.png' | relative_url }}" alt="Herzloop" loading="lazy">
+      <span>Herzloop</span>
+    </li>
+    <li>
+      <img src="{{ '/assets/img/illu/tierliloop.gif' | relative_url }}" alt="Tierliloop" loading="lazy">
+      <span>Tierliloop</span>
+    </li>
+  </ul>
+</section>
+
 <div class="project-modal" id="project-modal" aria-hidden="true">
   <button class="project-modal-close" id="project-modal-close" data-cursor="link" aria-label="Schliessen">×</button>
   <div class="project-modal-inner">
+    <img id="modal-poster" class="project-modal-poster" src="" alt="" style="display:none;">
     <p class="project-modal-year" id="modal-year"></p>
     <h3 id="modal-title"></h3>
     <p id="modal-role"></p>
