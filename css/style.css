@@ -112,7 +112,9 @@ h1,h2,h3{
   background:var(--bg-alt);
   border-bottom:1px solid var(--line);
 }
-.logo{font-family:'Clash Display',sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:-0.01em;}
+.logo{display:flex;align-items:center;gap:.6rem;font-family:'Clash Display',sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:-0.01em;}
+.logo-mark{height:34px;width:auto;display:block;}
+html.dark .logo-mark{filter:invert(1);}
 .main-nav{display:flex;gap:2.25rem;font-size:.92rem;}
 .main-nav a{position:relative;padding-bottom:.2rem;color:var(--text-muted);transition:color .25s var(--ease);}
 .main-nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent);transition:width .3s var(--ease);}

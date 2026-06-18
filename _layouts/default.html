@@ -33,7 +33,10 @@
 <div class="grain" aria-hidden="true"></div>
 
 <header class="site-header">
-  <a href="{{ '/' | relative_url }}" class="logo">Anna&nbsp;Lena&nbsp;Spring</a>
+  <a href="{{ '/' | relative_url }}" class="logo">
+    <img src="{{ '/assets/logo.png' | relative_url }}" alt="" class="logo-mark" width="36" height="36">
+    <span class="logo-text">Anna&nbsp;Lena&nbsp;Spring</span>
+  </a>
   <nav class="main-nav">
     <a href="{{ '/animation/' | relative_url }}" data-cursor="link" {% if page.url contains '/animation' %}class="active"{% endif %}>Animation</a>
     <a href="{{ '/keramik/' | relative_url }}" data-cursor="link" {% if page.url contains '/keramik' %}class="active"{% endif %}>Keramik</a>
