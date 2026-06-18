@@ -264,6 +264,9 @@ html.dark .home-signature-img{filter:invert(1) drop-shadow(0 6px 18px rgba(0,0,0
   padding:.25rem .6rem;border-radius:99px;
 }
 .ceramic-viewer--empty{display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;background:var(--bg-alt);border:1px dashed var(--line);}
+.ceramic-viewer--floating{background:var(--bg-alt);}
+.ceramic-viewer--floating .ceramic-img{filter:drop-shadow(0 18px 24px rgba(0,0,0,.18));}
+html.dark .ceramic-viewer--floating .ceramic-img{filter:drop-shadow(0 18px 24px rgba(0,0,0,.5));}
 .ceramic-caption{font-size:.85rem;color:var(--text-muted);}
 
 /* ---------- About ---------- */
