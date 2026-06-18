@@ -72,13 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => el.classList.add('in'));
   }
 
-  /* ---------- Mobile nav burger ---------- */
+  /* ---------- Nav burger ---------- */
   const burger = document.querySelector('.nav-burger');
   const mainNav = document.querySelector('.main-nav');
+  const navOverlay = document.querySelector('.nav-overlay');
+  function closeNav() {
+    mainNav?.classList.remove('open');
+    burger?.classList.remove('open');
+    navOverlay?.classList.remove('open');
+  }
   if (burger && mainNav) {
     burger.addEventListener('click', () => {
-      mainNav.classList.toggle('open');
+      const isOpen = mainNav.classList.toggle('open');
+      burger.classList.toggle('open', isOpen);
+      navOverlay?.classList.toggle('open', isOpen);
     });
+    navOverlay?.addEventListener('click', closeNav);
+    mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
   }
 
   /* ---------- Ceramic pseudo-3D turntable viewer ---------- */
