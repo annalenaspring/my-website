@@ -1,7 +1,7 @@
 /* ============================================
    Anna Lena Spring — Portfolio (Multi-Page)
    Typografie: Clash Display (Display) / Satoshi (Text)
-   Farben: Olive #87A748, Sage #AACCBA, Terracotta #DC6F4B
+   Farben: Olive #87A748, Sage #AACCBA, Rosa #D9678F
    ============================================ */
 
 :root{
@@ -16,7 +16,7 @@
 
   --olive: #87A748;
   --sage: #AACCBA;
-  --terracotta: #DC6F4B;
+  --terracotta: #D9678F; /* Rosa/Pink statt Orange */
   --cream: #F7F3EC;
   --paper: #FFFDF9;
   --ink: #181614;
@@ -28,7 +28,7 @@
   --text-muted: #5f6354;
   --line: rgba(24,22,20,0.14);
   --secondary-surface: var(--sage); /* 30% — Türkis, kräftiger für Karten/Flächen */
-  --accent: var(--terracotta);      /* 10% — Orange, sparsam für Links/Buttons/Hover */
+  --accent: var(--terracotta);      /* 10% — Rosa, sparsam für Links/Buttons/Hover */
   --toggle-green: #2F4A33;          /* dunkles Grün für den Theme-Toggle */
   --cursor-mix: difference;
 
@@ -139,14 +139,18 @@ html.dark .logo-mark{filter:invert(1);}
 .theme-toggle-dot{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--toggle-green);transition:transform .35s var(--ease);}
 html.dark .theme-toggle-dot{transform:translateX(18px);}
 .nav-burger{
-  display:block;width:32px;height:22px;position:relative;background:none;border:none;cursor:pointer;
-  justify-self:end;z-index:201;
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;position:relative;background:transparent;border:none;cursor:pointer;
+  justify-self:end;z-index:201;outline:none;
+  transition:background .3s var(--ease);
 }
-.nav-burger span{position:absolute;left:0;right:0;height:1.5px;background:var(--text);transition:transform .3s var(--ease),opacity .3s var(--ease);}
-.nav-burger span:first-child{top:0;}
-.nav-burger span:last-child{bottom:0;}
-.nav-burger.open span:first-child{top:9px;transform:rotate(45deg);}
-.nav-burger.open span:last-child{bottom:9px;transform:rotate(-45deg);}
+.nav-burger:hover,.nav-burger:focus-visible,.nav-burger.open{background:var(--accent);}
+.nav-burger span{position:absolute;left:50%;top:50%;width:18px;height:1.5px;background:var(--text);
+  transform:translate(-50%,-50%) translateY(-4px);transition:transform .3s var(--ease),background .3s var(--ease),opacity .3s var(--ease);}
+.nav-burger span:last-child{transform:translate(-50%,-50%) translateY(4px);}
+.nav-burger:hover span,.nav-burger:focus-visible span,.nav-burger.open span{background:var(--paper);}
+.nav-burger.open span:first-child{transform:translate(-50%,-50%) rotate(45deg);}
+.nav-burger.open span:last-child{transform:translate(-50%,-50%) rotate(-45deg);}
 
 @media (max-width: 760px){
   .main-nav{width:78vw;max-width:320px;}
@@ -187,8 +191,15 @@ html.dark .home-logo-mark{filter:invert(1) drop-shadow(0 8px 20px rgba(0,0,0,.35
 .home-signature-img--small{width:min(360px,65vw);}
 html.dark .home-signature-img{filter:invert(1) drop-shadow(0 6px 18px rgba(0,0,0,.3));}
 .home-tagline{margin:1.5rem 0 0;color:var(--text-muted);font-size:var(--fs-01);}
-.home-links{display:flex;gap:2rem;margin-top:2.5rem;font-size:1rem;}
-.home-links a{border-bottom:1px solid var(--accent);padding-bottom:.2rem;}
+.home-links{display:flex;gap:1rem;margin-top:2.5rem;font-size:1rem;flex-wrap:wrap;justify-content:center;}
+.home-link-btn{
+  font-family:'Clash Display',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:-0.01em;
+  padding:.85rem 1.75rem;border-radius:99px;border:1.5px solid var(--ink);
+  color:var(--text);background:transparent;
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);
+}
+.home-link-btn:hover{background:var(--accent);border-color:var(--accent);color:var(--paper);transform:translateY(-2px);}
+html.dark .home-link-btn{border-color:var(--text);}
 
 /* ---------- Work ---------- */
 .work-grid{
