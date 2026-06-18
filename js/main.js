@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.transform = `translate(${cx}px, ${cy}px)`;
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('[data-cursor="link"], a, button, .work-item, .ceramic-viewer, .home-figure').forEach(el => {
+    document.querySelectorAll('[data-cursor="link"], a, button, .work-card, .ceramic-viewer').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('link'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('link'));
     });
@@ -79,42 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     burger.addEventListener('click', () => {
       mainNav.classList.toggle('open');
     });
-  }
-
-  /* ---------- GSAP idle float (if available) ---------- */
-  if (window.gsap) {
-    gsap.to('.home-figure', {
-      y: 10,
-      duration: 2.4,
-      ease: 'sine.inOut',
-      repeat: -1,
-      yoyo: true
-    });
-  }
-
-  /* ---------- Home figure drag (light parallax tilt) ---------- */
-  const homeFigure = document.getElementById('home-figure');
-  if (homeFigure) {
-    let dragging = false, startX = 0, rotation = 0;
-    const onDown = (x) => { dragging = true; startX = x; homeFigure.style.transition = 'none'; };
-    const onMove = (x) => {
-      if (!dragging) return;
-      const delta = x - startX;
-      rotation = Math.max(-18, Math.min(18, delta / 4));
-      homeFigure.style.transform = `rotate(${rotation}deg)`;
-    };
-    const onUp = () => {
-      if (!dragging) return;
-      dragging = false;
-      homeFigure.style.transition = 'transform .6s cubic-bezier(.16,.84,.44,1)';
-      homeFigure.style.transform = 'rotate(0deg)';
-    };
-    homeFigure.addEventListener('mousedown', e => onDown(e.clientX));
-    window.addEventListener('mousemove', e => onMove(e.clientX));
-    window.addEventListener('mouseup', onUp);
-    homeFigure.addEventListener('touchstart', e => onDown(e.touches[0].clientX), { passive: true });
-    homeFigure.addEventListener('touchmove', e => onMove(e.touches[0].clientX), { passive: true });
-    homeFigure.addEventListener('touchend', onUp);
   }
 
   /* ---------- Ceramic pseudo-3D turntable viewer ---------- */
@@ -205,35 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  const previewColors = {
-    glitzert: '#DC6F4B', roadmovie: '#87A748', faderchleid: '#AACCBA',
-    animadvent: '#D9E6E1', sauna: '#E9F0DD', lu: '#181614'
-  };
-
-  function placeholderSVG(color) {
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160'><rect width='100%' height='100%' fill='${color}'/></svg>`;
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-  }
-
-  const workItems = document.querySelectorAll('.work-item');
-  const preview = document.querySelector('.work-preview');
-  const previewImg = preview ? preview.querySelector('img') : null;
-
-  if (workItems.length && preview && previewImg) {
-    workItems.forEach(item => {
-      const key = item.getAttribute('data-project');
-      const projInfo = projectData[key];
-      item.addEventListener('mouseenter', () => {
-        previewImg.src = (projInfo && projInfo.poster) ? projInfo.poster : placeholderSVG(previewColors[key] || '#AACCBA');
-        preview.classList.add('show');
-      });
-      item.addEventListener('mousemove', e => {
-        preview.style.left = e.clientX + 'px';
-        preview.style.top = e.clientY + 'px';
-      });
-      item.addEventListener('mouseleave', () => preview.classList.remove('show'));
-    });
-  }
+  const workItems = document.querySelectorAll('.work-card');
 
   const modal = document.getElementById('project-modal');
   if (modal) {
